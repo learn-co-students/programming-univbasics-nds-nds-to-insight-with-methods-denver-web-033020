@@ -5,21 +5,16 @@ require 'directors_database'
 # using director_data as input
 def gross_for_director(director_data)
   # Array => Hash (:name, :movies => Array[Hash{:title,:studio,:worldwide_grosses,:release_year}])
-  worldwide_gross = 0
-  index = 0
-  # loop through directors
-  while index < director_data.length do
-    # loop through movies
-    inner_index = 0
-    while inner_index < director_data[index][:movies].length do
-      movie_gross = director_data[index][:movies][inner_index][:worldwide_gross]
-      worldwide_gross += movie_gross
-      inner_index += 1
-    end
-    index += 1
+  gross = 0
+  i = 0
+  while i < director_data[:movies].length do
+    movie = director_data[:movies][i]
+    gross += movie[:worldwide_gross]
+    i += 1
   end
-  return worldwide_gross
+  return gross
 end
+
 
 # Write a method that, given an NDS creates a new Hash
 # The return value should be like:
@@ -27,22 +22,18 @@ end
 # { directorOne => allTheMoneyTheyMade, ... }
 def directors_totals(nds)
   result = {}
-
-  # Array => Hash (:name, :movies => Array[Hash{:title,:studio,:worldwide_grosses,:release_year}])
-  # loop through directors
-  index = 0
-  while index < director_data.length do
-    # loop through movies
-    director_sum = 0
-    inner_index = 0
-    while inner_index < director_data[index][:movies].length do
-      movie_gross = director_data[index][:movies][inner_index][:worldwide_gross]
-      director_sum += movie_gross
-      inner_index += 1
+  i = 0
+  while i < nds.length do
+    name = nds[i][:name]
+    gross = 0
+    j = 0
+    while j < nds[i][:movies].length do
+      movie_amt = nds[i][:movies][j][:worldwide_gross]
+      gross += movie_amt
+      j += 1
     end
-    director_name = [director_data][index][:name]
-    result[director_name] = director_sum
-    index += 1
+    result[name] = gross
+    i += 1
   end
-  nil
+  return result
 end
